@@ -1,4 +1,4 @@
-// import '../css/common.css';
+// import '../sass/main.scss';
 
 const startButton = document.querySelector('button[data-start]');
 const stopButton = document.querySelector('button[data-stop]');
