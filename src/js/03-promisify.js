@@ -1,6 +1,7 @@
 // ======================= Subtask 1 =======================
 const delay = ms => {
   // Change this function
+  return Promise.resolve(ms);
 };
 
 const logger = time => console.log(`Fulfilled after ${time}ms`);
@@ -17,12 +18,12 @@ const users = [
   { name: 'Ajax', active: false },
 ];
 
-const toggleUserState = (allUsers, username, callback) => {
-  const updatedUsers = allUsers.map(user =>
-    user.name === username ? { ...user, active: !user.active } : user
-  );
-
-  callback(updatedUsers);
+const toggleUserState = (allUsers, username) => {
+  return new Promise(resolve => {
+    resolve(allUsers.map(user =>
+      user.name === username ? { ...user, active: !user.active } : user
+    ));
+  })
 };
 
 // Currently the function works like this
@@ -30,26 +31,28 @@ const toggleUserState = (allUsers, username, callback) => {
 // toggleUserState(users, 'Ajax', console.table);
 
 // The function should work like this
-// toggleUserState(users, 'Mango').then(console.table);
-// toggleUserState(users, 'Ajax').then(console.table);
+toggleUserState(users, 'Mango').then(console.table);
+toggleUserState(users, 'Ajax').then(console.table);
 
 // ======================= Subtask 3 =======================
 const randomIntegerFromInterval = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
-const makeTransaction = (transaction, onSuccess, onError) => {
+const makeTransaction = transaction => {
   const delay = randomIntegerFromInterval(200, 500);
 
-  setTimeout(() => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
     const canProcess = Math.random() > 0.3;
 
     if (canProcess) {
-      onSuccess({ id: transaction.id, time: delay });
+      resolve({ id: transaction.id, time: delay });
     } else {
-      onError(transaction.id);
+      reject(transaction.id);
     }
   }, delay);
+  })
 };
 
 const logSuccess = ({ id, time }) => {

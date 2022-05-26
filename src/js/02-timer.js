@@ -20,13 +20,13 @@ const convertMs = ms => {
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
-  const days = Math.floor(ms / day);
-  // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
-  // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
-  // Remaining seconds
+    // Remaining days
+    const days = Math.floor(ms / day);
+    // Remaining hours
+    const hours = Math.floor((ms % day) / hour);
+    // Remaining minutes
+    const minutes = Math.floor(((ms % day) % hour) / minute);
+    // Remaining seconds
     const seconds = Math.floor((((ms % day) % hour) % minute) / second);
     
     timerDays.textContent = days;
@@ -34,27 +34,26 @@ const convertMs = ms => {
     timerMinutes.textContent = minutes;
     timerSeconds.textContent = seconds;
 
-  return { days, hours, minutes, seconds };
+    return { days, hours, minutes, seconds };
 }
 
 const isDateInFuture = () => {
-    if (Date.parse(inputDate.value) >= Date.now()) {
+    if (Date.now() <= Date.parse(inputDate.value)) {
         startButton.disabled = false;
         return;
     } Swal.fire({
         icon: 'error',
-        text: 'Please choose a date in the future'
+        text: 'Please, choose a date in the future'
     })
 }
 
 const startTimer = () => {
     startButton.disabled = true;
-    const countdown = setInterval(() => {
+    setInterval(() => {
         const currentTime = Date.now();
         const selectedDate = Date.parse(inputDate.value);
-        const timeLeft = selectedDate - currentTime;
+        timeLeft = selectedDate - currentTime;
         convertMs(timeLeft);
-        // console.log(convertMs(timeLeft));
     }, 1000)
 }
 
